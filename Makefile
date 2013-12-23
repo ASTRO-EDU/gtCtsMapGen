@@ -23,9 +23,9 @@ SHELL = /bin/sh
 
 SYSTEM= $(shell gcc -dumpmachine)
 #ice, ctarta, mpi, cfitsio, mysql
-LINKERENV= cfitsio
-EXE_NAME = AG_ctsmapgen5
-LIB_NAME = <lib_name>
+LINKERENV= cfitsio, ice
+EXE_NAME = server
+LIB_NAME = server
 VER_FILE_NAME = version.h
 #the name of the directory where the conf file are copied (into $(datadir))
 CONF_DEST_DIR =
