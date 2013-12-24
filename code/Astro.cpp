@@ -40,21 +40,19 @@
 namespace
 {
 
-const ::std::string __Astro__AstroInterface__calculateMapKey_name = "calculateMapKey";
+const ::std::string __Astro__AgileCtsMapGen__calculateMapKey_name = "calculateMapKey";
 
-const ::std::string __Astro__AstroInterface__calculateMapVector_name = "calculateMapVector";
-
-const ::std::string __Astro__AstroInterface__shutdown_name = "shutdown";
+const ::std::string __Astro__AgileCtsMapGen__shutdown_name = "shutdown";
 
 }
 
 namespace Ice
 {
 }
-::IceProxy::Ice::Object* ::IceProxy::Astro::upCast(::IceProxy::Astro::AstroInterface* p) { return p; }
+::IceProxy::Ice::Object* ::IceProxy::Astro::upCast(::IceProxy::Astro::AgileCtsMapGen* p) { return p; }
 
 void
-::IceProxy::Astro::__read(::IceInternal::BasicStream* __is, ::IceInternal::ProxyHandle< ::IceProxy::Astro::AstroInterface>& v)
+::IceProxy::Astro::__read(::IceInternal::BasicStream* __is, ::IceInternal::ProxyHandle< ::IceProxy::Astro::AgileCtsMapGen>& v)
 {
     ::Ice::ObjectPrx proxy;
     __is->read(proxy);
@@ -64,25 +62,25 @@ void
     }
     else
     {
-        v = new ::IceProxy::Astro::AstroInterface;
+        v = new ::IceProxy::Astro::AgileCtsMapGen;
         v->__copyFrom(proxy);
     }
 }
 
 ::Astro::Matrix
-IceProxy::Astro::AstroInterface::calculateMapKey(const ::Astro::SeqEvtKey& keys, const ::Ice::Context* __ctx)
+IceProxy::Astro::AgileCtsMapGen::calculateMapKey(const ::Astro::AGILECtsMapGenParams& param, const ::Ice::Context* __ctx)
 {
-    ::IceInternal::InvocationObserver __observer(this, __Astro__AstroInterface__calculateMapKey_name, __ctx);
+    ::IceInternal::InvocationObserver __observer(this, __Astro__AgileCtsMapGen__calculateMapKey_name, __ctx);
     int __cnt = 0;
     while(true)
     {
         ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
         try
         {
-            __checkTwowayOnly(__Astro__AstroInterface__calculateMapKey_name);
+            __checkTwowayOnly(__Astro__AgileCtsMapGen__calculateMapKey_name);
             __delBase = __getDelegate(false);
-            ::IceDelegate::Astro::AstroInterface* __del = dynamic_cast< ::IceDelegate::Astro::AstroInterface*>(__delBase.get());
-            return __del->calculateMapKey(keys, __ctx, __observer);
+            ::IceDelegate::Astro::AgileCtsMapGen* __del = dynamic_cast< ::IceDelegate::Astro::AgileCtsMapGen*>(__delBase.get());
+            return __del->calculateMapKey(param, __ctx, __observer);
         }
         catch(const ::IceInternal::LocalExceptionWrapper& __ex)
         {
@@ -96,15 +94,15 @@ IceProxy::Astro::AstroInterface::calculateMapKey(const ::Astro::SeqEvtKey& keys,
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::Astro::AstroInterface::begin_calculateMapKey(const ::Astro::SeqEvtKey& keys, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::Astro::AgileCtsMapGen::begin_calculateMapKey(const ::Astro::AGILECtsMapGenParams& param, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
-    __checkAsyncTwowayOnly(__Astro__AstroInterface__calculateMapKey_name);
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Astro__AstroInterface__calculateMapKey_name, __del, __cookie);
+    __checkAsyncTwowayOnly(__Astro__AgileCtsMapGen__calculateMapKey_name);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Astro__AgileCtsMapGen__calculateMapKey_name, __del, __cookie);
     try
     {
-        __result->__prepare(__Astro__AstroInterface__calculateMapKey_name, ::Ice::Normal, __ctx);
+        __result->__prepare(__Astro__AgileCtsMapGen__calculateMapKey_name, ::Ice::Normal, __ctx);
         ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
-        __os->write(keys);
+        __os->write(param);
         __result->__endWriteParams();
         __result->__send(true);
     }
@@ -116,87 +114,9 @@ IceProxy::Astro::AstroInterface::begin_calculateMapKey(const ::Astro::SeqEvtKey&
 }
 
 ::Astro::Matrix
-IceProxy::Astro::AstroInterface::end_calculateMapKey(const ::Ice::AsyncResultPtr& __result)
+IceProxy::Astro::AgileCtsMapGen::end_calculateMapKey(const ::Ice::AsyncResultPtr& __result)
 {
-    ::Ice::AsyncResult::__check(__result, this, __Astro__AstroInterface__calculateMapKey_name);
-    ::Astro::Matrix __ret;
-    bool __ok = __result->__wait();
-    try
-    {
-        if(!__ok)
-        {
-            try
-            {
-                __result->__throwUserException();
-            }
-            catch(const ::Ice::UserException& __ex)
-            {
-                throw ::Ice::UnknownUserException(__FILE__, __LINE__, __ex.ice_name());
-            }
-        }
-        ::IceInternal::BasicStream* __is = __result->__startReadParams();
-        __is->read(__ret);
-        __result->__endReadParams();
-        return __ret;
-    }
-    catch(const ::Ice::LocalException& ex)
-    {
-        __result->__getObserver().failed(ex.ice_name());
-        throw;
-    }
-}
-
-::Astro::Matrix
-IceProxy::Astro::AstroInterface::calculateMapVector(const ::Astro::Ra& raVector, const ::Astro::Dec& decVector, const ::Ice::Context* __ctx)
-{
-    ::IceInternal::InvocationObserver __observer(this, __Astro__AstroInterface__calculateMapVector_name, __ctx);
-    int __cnt = 0;
-    while(true)
-    {
-        ::IceInternal::Handle< ::IceDelegate::Ice::Object> __delBase;
-        try
-        {
-            __checkTwowayOnly(__Astro__AstroInterface__calculateMapVector_name);
-            __delBase = __getDelegate(false);
-            ::IceDelegate::Astro::AstroInterface* __del = dynamic_cast< ::IceDelegate::Astro::AstroInterface*>(__delBase.get());
-            return __del->calculateMapVector(raVector, decVector, __ctx, __observer);
-        }
-        catch(const ::IceInternal::LocalExceptionWrapper& __ex)
-        {
-            __handleExceptionWrapper(__delBase, __ex, __observer);
-        }
-        catch(const ::Ice::LocalException& __ex)
-        {
-            __handleException(__delBase, __ex, true, __cnt, __observer);
-        }
-    }
-}
-
-::Ice::AsyncResultPtr
-IceProxy::Astro::AstroInterface::begin_calculateMapVector(const ::Astro::Ra& raVector, const ::Astro::Dec& decVector, const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
-{
-    __checkAsyncTwowayOnly(__Astro__AstroInterface__calculateMapVector_name);
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Astro__AstroInterface__calculateMapVector_name, __del, __cookie);
-    try
-    {
-        __result->__prepare(__Astro__AstroInterface__calculateMapVector_name, ::Ice::Normal, __ctx);
-        ::IceInternal::BasicStream* __os = __result->__startWriteParams(::Ice::DefaultFormat);
-        __os->write(raVector);
-        __os->write(decVector);
-        __result->__endWriteParams();
-        __result->__send(true);
-    }
-    catch(const ::Ice::LocalException& __ex)
-    {
-        __result->__exceptionAsync(__ex);
-    }
-    return __result;
-}
-
-::Astro::Matrix
-IceProxy::Astro::AstroInterface::end_calculateMapVector(const ::Ice::AsyncResultPtr& __result)
-{
-    ::Ice::AsyncResult::__check(__result, this, __Astro__AstroInterface__calculateMapVector_name);
+    ::Ice::AsyncResult::__check(__result, this, __Astro__AgileCtsMapGen__calculateMapKey_name);
     ::Astro::Matrix __ret;
     bool __ok = __result->__wait();
     try
@@ -225,9 +145,9 @@ IceProxy::Astro::AstroInterface::end_calculateMapVector(const ::Ice::AsyncResult
 }
 
 void
-IceProxy::Astro::AstroInterface::shutdown(const ::Ice::Context* __ctx)
+IceProxy::Astro::AgileCtsMapGen::shutdown(const ::Ice::Context* __ctx)
 {
-    ::IceInternal::InvocationObserver __observer(this, __Astro__AstroInterface__shutdown_name, __ctx);
+    ::IceInternal::InvocationObserver __observer(this, __Astro__AgileCtsMapGen__shutdown_name, __ctx);
     int __cnt = 0;
     while(true)
     {
@@ -235,7 +155,7 @@ IceProxy::Astro::AstroInterface::shutdown(const ::Ice::Context* __ctx)
         try
         {
             __delBase = __getDelegate(false);
-            ::IceDelegate::Astro::AstroInterface* __del = dynamic_cast< ::IceDelegate::Astro::AstroInterface*>(__delBase.get());
+            ::IceDelegate::Astro::AgileCtsMapGen* __del = dynamic_cast< ::IceDelegate::Astro::AgileCtsMapGen*>(__delBase.get());
             __del->shutdown(__ctx, __observer);
             return;
         }
@@ -251,12 +171,12 @@ IceProxy::Astro::AstroInterface::shutdown(const ::Ice::Context* __ctx)
 }
 
 ::Ice::AsyncResultPtr
-IceProxy::Astro::AstroInterface::begin_shutdown(const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
+IceProxy::Astro::AgileCtsMapGen::begin_shutdown(const ::Ice::Context* __ctx, const ::IceInternal::CallbackBasePtr& __del, const ::Ice::LocalObjectPtr& __cookie)
 {
-    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Astro__AstroInterface__shutdown_name, __del, __cookie);
+    ::IceInternal::OutgoingAsyncPtr __result = new ::IceInternal::OutgoingAsync(this, __Astro__AgileCtsMapGen__shutdown_name, __del, __cookie);
     try
     {
-        __result->__prepare(__Astro__AstroInterface__shutdown_name, ::Ice::Normal, __ctx);
+        __result->__prepare(__Astro__AgileCtsMapGen__shutdown_name, ::Ice::Normal, __ctx);
         __result->__writeEmptyParams();
         __result->__send(true);
     }
@@ -268,85 +188,43 @@ IceProxy::Astro::AstroInterface::begin_shutdown(const ::Ice::Context* __ctx, con
 }
 
 void
-IceProxy::Astro::AstroInterface::end_shutdown(const ::Ice::AsyncResultPtr& __result)
+IceProxy::Astro::AgileCtsMapGen::end_shutdown(const ::Ice::AsyncResultPtr& __result)
 {
-    __end(__result, __Astro__AstroInterface__shutdown_name);
+    __end(__result, __Astro__AgileCtsMapGen__shutdown_name);
 }
 
 const ::std::string&
-IceProxy::Astro::AstroInterface::ice_staticId()
+IceProxy::Astro::AgileCtsMapGen::ice_staticId()
 {
-    return ::Astro::AstroInterface::ice_staticId();
+    return ::Astro::AgileCtsMapGen::ice_staticId();
 }
 
 ::IceInternal::Handle< ::IceDelegateM::Ice::Object>
-IceProxy::Astro::AstroInterface::__createDelegateM()
+IceProxy::Astro::AgileCtsMapGen::__createDelegateM()
 {
-    return ::IceInternal::Handle< ::IceDelegateM::Ice::Object>(new ::IceDelegateM::Astro::AstroInterface);
+    return ::IceInternal::Handle< ::IceDelegateM::Ice::Object>(new ::IceDelegateM::Astro::AgileCtsMapGen);
 }
 
 ::IceInternal::Handle< ::IceDelegateD::Ice::Object>
-IceProxy::Astro::AstroInterface::__createDelegateD()
+IceProxy::Astro::AgileCtsMapGen::__createDelegateD()
 {
-    return ::IceInternal::Handle< ::IceDelegateD::Ice::Object>(new ::IceDelegateD::Astro::AstroInterface);
+    return ::IceInternal::Handle< ::IceDelegateD::Ice::Object>(new ::IceDelegateD::Astro::AgileCtsMapGen);
 }
 
 ::IceProxy::Ice::Object*
-IceProxy::Astro::AstroInterface::__newInstance() const
+IceProxy::Astro::AgileCtsMapGen::__newInstance() const
 {
-    return new AstroInterface;
+    return new AgileCtsMapGen;
 }
 
 ::Astro::Matrix
-IceDelegateM::Astro::AstroInterface::calculateMapKey(const ::Astro::SeqEvtKey& keys, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::Astro::AgileCtsMapGen::calculateMapKey(const ::Astro::AGILECtsMapGenParams& param, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
-    ::IceInternal::Outgoing __og(__handler.get(), __Astro__AstroInterface__calculateMapKey_name, ::Ice::Normal, __context, __observer);
+    ::IceInternal::Outgoing __og(__handler.get(), __Astro__AgileCtsMapGen__calculateMapKey_name, ::Ice::Normal, __context, __observer);
     try
     {
         ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
-        __os->write(keys);
-        __og.endWriteParams();
-    }
-    catch(const ::Ice::LocalException& __ex)
-    {
-        __og.abort(__ex);
-    }
-    bool __ok = __og.invoke();
-    ::Astro::Matrix __ret;
-    try
-    {
-        if(!__ok)
-        {
-            try
-            {
-                __og.throwUserException();
-            }
-            catch(const ::Ice::UserException& __ex)
-            {
-                ::Ice::UnknownUserException __uue(__FILE__, __LINE__, __ex.ice_name());
-                throw __uue;
-            }
-        }
-        ::IceInternal::BasicStream* __is = __og.startReadParams();
-        __is->read(__ret);
-        __og.endReadParams();
-        return __ret;
-    }
-    catch(const ::Ice::LocalException& __ex)
-    {
-        throw ::IceInternal::LocalExceptionWrapper(__ex, false);
-    }
-}
-
-::Astro::Matrix
-IceDelegateM::Astro::AstroInterface::calculateMapVector(const ::Astro::Ra& raVector, const ::Astro::Dec& decVector, const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
-{
-    ::IceInternal::Outgoing __og(__handler.get(), __Astro__AstroInterface__calculateMapVector_name, ::Ice::Normal, __context, __observer);
-    try
-    {
-        ::IceInternal::BasicStream* __os = __og.startWriteParams(::Ice::DefaultFormat);
-        __os->write(raVector);
-        __os->write(decVector);
+        __os->write(param);
         __og.endWriteParams();
     }
     catch(const ::Ice::LocalException& __ex)
@@ -381,9 +259,9 @@ IceDelegateM::Astro::AstroInterface::calculateMapVector(const ::Astro::Ra& raVec
 }
 
 void
-IceDelegateM::Astro::AstroInterface::shutdown(const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
+IceDelegateM::Astro::AgileCtsMapGen::shutdown(const ::Ice::Context* __context, ::IceInternal::InvocationObserver& __observer)
 {
-    ::IceInternal::Outgoing __og(__handler.get(), __Astro__AstroInterface__shutdown_name, ::Ice::Normal, __context, __observer);
+    ::IceInternal::Outgoing __og(__handler.get(), __Astro__AgileCtsMapGen__shutdown_name, ::Ice::Normal, __context, __observer);
     __og.writeEmptyParams();
     bool __ok = __og.invoke();
     if(__og.hasResponse())
@@ -412,113 +290,43 @@ IceDelegateM::Astro::AstroInterface::shutdown(const ::Ice::Context* __context, :
 }
 
 ::Astro::Matrix
-IceDelegateD::Astro::AstroInterface::calculateMapKey(const ::Astro::SeqEvtKey& keys, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::Astro::AgileCtsMapGen::calculateMapKey(const ::Astro::AGILECtsMapGenParams& param, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
     public:
 
-        _DirectI(::Astro::Matrix& __result, const ::Astro::SeqEvtKey& __p_keys, const ::Ice::Current& __current) : 
+        _DirectI(::Astro::Matrix& __result, const ::Astro::AGILECtsMapGenParams& __p_param, const ::Ice::Current& __current) : 
             ::IceInternal::Direct(__current),
             _result(__result),
-            _m_keys(__p_keys)
+            _m_param(__p_param)
         {
         }
         
         virtual ::Ice::DispatchStatus
         run(::Ice::Object* object)
         {
-            ::Astro::AstroInterface* servant = dynamic_cast< ::Astro::AstroInterface*>(object);
+            ::Astro::AgileCtsMapGen* servant = dynamic_cast< ::Astro::AgileCtsMapGen*>(object);
             if(!servant)
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
             }
-            _result = servant->calculateMapKey(_m_keys, _current);
+            _result = servant->calculateMapKey(_m_param, _current);
             return ::Ice::DispatchOK;
         }
         
     private:
         
         ::Astro::Matrix& _result;
-        const ::Astro::SeqEvtKey& _m_keys;
+        const ::Astro::AGILECtsMapGenParams& _m_param;
     };
     
     ::Ice::Current __current;
-    __initCurrent(__current, __Astro__AstroInterface__calculateMapKey_name, ::Ice::Normal, __context);
+    __initCurrent(__current, __Astro__AgileCtsMapGen__calculateMapKey_name, ::Ice::Normal, __context);
     ::Astro::Matrix __result;
     try
     {
-        _DirectI __direct(__result, keys, __current);
-        try
-        {
-            __direct.getServant()->__collocDispatch(__direct);
-        }
-        catch(...)
-        {
-            __direct.destroy();
-            throw;
-        }
-        __direct.destroy();
-    }
-    catch(const ::Ice::SystemException&)
-    {
-        throw;
-    }
-    catch(const ::IceInternal::LocalExceptionWrapper&)
-    {
-        throw;
-    }
-    catch(const ::std::exception& __ex)
-    {
-        ::IceInternal::LocalExceptionWrapper::throwWrapper(__ex);
-    }
-    catch(...)
-    {
-        throw ::IceInternal::LocalExceptionWrapper(::Ice::UnknownException(__FILE__, __LINE__, "unknown c++ exception"), false);
-    }
-    return __result;
-}
-
-::Astro::Matrix
-IceDelegateD::Astro::AstroInterface::calculateMapVector(const ::Astro::Ra& raVector, const ::Astro::Dec& decVector, const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
-{
-    class _DirectI : public ::IceInternal::Direct
-    {
-    public:
-
-        _DirectI(::Astro::Matrix& __result, const ::Astro::Ra& __p_raVector, const ::Astro::Dec& __p_decVector, const ::Ice::Current& __current) : 
-            ::IceInternal::Direct(__current),
-            _result(__result),
-            _m_raVector(__p_raVector),
-            _m_decVector(__p_decVector)
-        {
-        }
-        
-        virtual ::Ice::DispatchStatus
-        run(::Ice::Object* object)
-        {
-            ::Astro::AstroInterface* servant = dynamic_cast< ::Astro::AstroInterface*>(object);
-            if(!servant)
-            {
-                throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
-            }
-            _result = servant->calculateMapVector(_m_raVector, _m_decVector, _current);
-            return ::Ice::DispatchOK;
-        }
-        
-    private:
-        
-        ::Astro::Matrix& _result;
-        const ::Astro::Ra& _m_raVector;
-        const ::Astro::Dec& _m_decVector;
-    };
-    
-    ::Ice::Current __current;
-    __initCurrent(__current, __Astro__AstroInterface__calculateMapVector_name, ::Ice::Normal, __context);
-    ::Astro::Matrix __result;
-    try
-    {
-        _DirectI __direct(__result, raVector, decVector, __current);
+        _DirectI __direct(__result, param, __current);
         try
         {
             __direct.getServant()->__collocDispatch(__direct);
@@ -550,7 +358,7 @@ IceDelegateD::Astro::AstroInterface::calculateMapVector(const ::Astro::Ra& raVec
 }
 
 void
-IceDelegateD::Astro::AstroInterface::shutdown(const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
+IceDelegateD::Astro::AgileCtsMapGen::shutdown(const ::Ice::Context* __context, ::IceInternal::InvocationObserver&)
 {
     class _DirectI : public ::IceInternal::Direct
     {
@@ -564,7 +372,7 @@ IceDelegateD::Astro::AstroInterface::shutdown(const ::Ice::Context* __context, :
         virtual ::Ice::DispatchStatus
         run(::Ice::Object* object)
         {
-            ::Astro::AstroInterface* servant = dynamic_cast< ::Astro::AstroInterface*>(object);
+            ::Astro::AgileCtsMapGen* servant = dynamic_cast< ::Astro::AgileCtsMapGen*>(object);
             if(!servant)
             {
                 throw ::Ice::OperationNotExistException(__FILE__, __LINE__, _current.id, _current.facet, _current.operation);
@@ -578,7 +386,7 @@ IceDelegateD::Astro::AstroInterface::shutdown(const ::Ice::Context* __context, :
     };
     
     ::Ice::Current __current;
-    __initCurrent(__current, __Astro__AstroInterface__shutdown_name, ::Ice::Normal, __context);
+    __initCurrent(__current, __Astro__AgileCtsMapGen__shutdown_name, ::Ice::Normal, __context);
     try
     {
         _DirectI __direct(__current);
@@ -611,51 +419,51 @@ IceDelegateD::Astro::AstroInterface::shutdown(const ::Ice::Context* __context, :
     }
 }
 
-::Ice::Object* Astro::upCast(::Astro::AstroInterface* p) { return p; }
+::Ice::Object* Astro::upCast(::Astro::AgileCtsMapGen* p) { return p; }
 
 namespace
 {
-const ::std::string __Astro__AstroInterface_ids[2] =
+const ::std::string __Astro__AgileCtsMapGen_ids[2] =
 {
-    "::Astro::AstroInterface",
+    "::Astro::AgileCtsMapGen",
     "::Ice::Object"
 };
 
 }
 
 bool
-Astro::AstroInterface::ice_isA(const ::std::string& _s, const ::Ice::Current&) const
+Astro::AgileCtsMapGen::ice_isA(const ::std::string& _s, const ::Ice::Current&) const
 {
-    return ::std::binary_search(__Astro__AstroInterface_ids, __Astro__AstroInterface_ids + 2, _s);
+    return ::std::binary_search(__Astro__AgileCtsMapGen_ids, __Astro__AgileCtsMapGen_ids + 2, _s);
 }
 
 ::std::vector< ::std::string>
-Astro::AstroInterface::ice_ids(const ::Ice::Current&) const
+Astro::AgileCtsMapGen::ice_ids(const ::Ice::Current&) const
 {
-    return ::std::vector< ::std::string>(&__Astro__AstroInterface_ids[0], &__Astro__AstroInterface_ids[2]);
+    return ::std::vector< ::std::string>(&__Astro__AgileCtsMapGen_ids[0], &__Astro__AgileCtsMapGen_ids[2]);
 }
 
 const ::std::string&
-Astro::AstroInterface::ice_id(const ::Ice::Current&) const
+Astro::AgileCtsMapGen::ice_id(const ::Ice::Current&) const
 {
-    return __Astro__AstroInterface_ids[0];
+    return __Astro__AgileCtsMapGen_ids[0];
 }
 
 const ::std::string&
-Astro::AstroInterface::ice_staticId()
+Astro::AgileCtsMapGen::ice_staticId()
 {
-    return __Astro__AstroInterface_ids[0];
+    return __Astro__AgileCtsMapGen_ids[0];
 }
 
 ::Ice::DispatchStatus
-Astro::AstroInterface::___calculateMapKey(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+Astro::AgileCtsMapGen::___calculateMapKey(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
 {
     __checkMode(::Ice::Normal, __current.mode);
     ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::Astro::SeqEvtKey keys;
-    __is->read(keys);
+    ::Astro::AGILECtsMapGenParams param;
+    __is->read(param);
     __inS.endReadParams();
-    ::Astro::Matrix __ret = calculateMapKey(keys, __current);
+    ::Astro::Matrix __ret = calculateMapKey(param, __current);
     ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
     __os->write(__ret);
     __inS.__endWriteParams(true);
@@ -663,24 +471,7 @@ Astro::AstroInterface::___calculateMapKey(::IceInternal::Incoming& __inS, const 
 }
 
 ::Ice::DispatchStatus
-Astro::AstroInterface::___calculateMapVector(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
-{
-    __checkMode(::Ice::Normal, __current.mode);
-    ::IceInternal::BasicStream* __is = __inS.startReadParams();
-    ::Astro::Ra raVector;
-    ::Astro::Dec decVector;
-    __is->read(raVector);
-    __is->read(decVector);
-    __inS.endReadParams();
-    ::Astro::Matrix __ret = calculateMapVector(raVector, decVector, __current);
-    ::IceInternal::BasicStream* __os = __inS.__startWriteParams(::Ice::DefaultFormat);
-    __os->write(__ret);
-    __inS.__endWriteParams(true);
-    return ::Ice::DispatchOK;
-}
-
-::Ice::DispatchStatus
-Astro::AstroInterface::___shutdown(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
+Astro::AgileCtsMapGen::___shutdown(::IceInternal::Incoming& __inS, const ::Ice::Current& __current)
 {
     __checkMode(::Ice::Normal, __current.mode);
     __inS.readEmptyParams();
@@ -691,10 +482,9 @@ Astro::AstroInterface::___shutdown(::IceInternal::Incoming& __inS, const ::Ice::
 
 namespace
 {
-const ::std::string __Astro__AstroInterface_all[] =
+const ::std::string __Astro__AgileCtsMapGen_all[] =
 {
     "calculateMapKey",
-    "calculateMapVector",
     "ice_id",
     "ice_ids",
     "ice_isA",
@@ -705,15 +495,15 @@ const ::std::string __Astro__AstroInterface_all[] =
 }
 
 ::Ice::DispatchStatus
-Astro::AstroInterface::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
+Astro::AgileCtsMapGen::__dispatch(::IceInternal::Incoming& in, const ::Ice::Current& current)
 {
-    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Astro__AstroInterface_all, __Astro__AstroInterface_all + 7, current.operation);
+    ::std::pair< const ::std::string*, const ::std::string*> r = ::std::equal_range(__Astro__AgileCtsMapGen_all, __Astro__AgileCtsMapGen_all + 6, current.operation);
     if(r.first == r.second)
     {
         throw ::Ice::OperationNotExistException(__FILE__, __LINE__, current.id, current.facet, current.operation);
     }
 
-    switch(r.first - __Astro__AstroInterface_all)
+    switch(r.first - __Astro__AgileCtsMapGen_all)
     {
         case 0:
         {
@@ -721,25 +511,21 @@ Astro::AstroInterface::__dispatch(::IceInternal::Incoming& in, const ::Ice::Curr
         }
         case 1:
         {
-            return ___calculateMapVector(in, current);
+            return ___ice_id(in, current);
         }
         case 2:
         {
-            return ___ice_id(in, current);
+            return ___ice_ids(in, current);
         }
         case 3:
         {
-            return ___ice_ids(in, current);
+            return ___ice_isA(in, current);
         }
         case 4:
         {
-            return ___ice_isA(in, current);
-        }
-        case 5:
-        {
             return ___ice_ping(in, current);
         }
-        case 6:
+        case 5:
         {
             return ___shutdown(in, current);
         }
@@ -750,25 +536,25 @@ Astro::AstroInterface::__dispatch(::IceInternal::Incoming& in, const ::Ice::Curr
 }
 
 void
-Astro::AstroInterface::__writeImpl(::IceInternal::BasicStream* __os) const
+Astro::AgileCtsMapGen::__writeImpl(::IceInternal::BasicStream* __os) const
 {
     __os->startWriteSlice(ice_staticId(), -1, true);
     __os->endWriteSlice();
 }
 
 void
-Astro::AstroInterface::__readImpl(::IceInternal::BasicStream* __is)
+Astro::AgileCtsMapGen::__readImpl(::IceInternal::BasicStream* __is)
 {
     __is->startReadSlice();
     __is->endReadSlice();
 }
 
 void 
-Astro::__patch(AstroInterfacePtr& handle, const ::Ice::ObjectPtr& v)
+Astro::__patch(AgileCtsMapGenPtr& handle, const ::Ice::ObjectPtr& v)
 {
-    handle = ::Astro::AstroInterfacePtr::dynamicCast(v);
+    handle = ::Astro::AgileCtsMapGenPtr::dynamicCast(v);
     if(v && !handle)
     {
-        IceInternal::Ex::throwUOE(::Astro::AstroInterface::ice_staticId(), v);
+        IceInternal::Ex::throwUOE(::Astro::AgileCtsMapGen::ice_staticId(), v);
     }
 }

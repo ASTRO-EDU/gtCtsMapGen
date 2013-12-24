@@ -20,14 +20,15 @@
 
 
 // Freeze types in this file:
-// name="DBAstro", key="double", value="Astro::agileEvt"
-// name="AgileLogMap", key="Astro::agileLogKey", value="Astro::agileLog"
+// name="DBAgileEvt", key="double", value="Astro::agileEvt"
+// name="DBAgileEvtStruct", key="double", value="Astro::agileEvtValue"
+// name="DBAgileLog", key="Astro::agileLogKey", value="Astro::agileLog"
 
 #ifndef __code_DBAstro_h__
 #define __code_DBAstro_h__
 
 #include <Freeze/Map.h>
-#include <Astro.h>
+#include </home/userdev4/Projects/gtCtsMapGen/code/Astro.h>
 
 #ifndef ICE_IGNORE_VERSION
 #   if ICE_INT_VERSION / 100 != 305
@@ -41,7 +42,7 @@
 #   endif
 #endif
 
-class DBAstroKeyCodec
+class DBAgileEvtKeyCodec
 {
 public:
 
@@ -50,7 +51,7 @@ public:
     static const std::string& typeId();
 };
 
-class DBAstroValueCodec
+class DBAgileEvtValueCodec
 {
 public:
 
@@ -59,18 +60,38 @@ public:
     static const std::string& typeId();
 };
 
-typedef Freeze::Map< ::Ice::Double, ::Astro::agileEvt, DBAstroKeyCodec, DBAstroValueCodec, Freeze::IceEncodingCompare > DBAstro;
+typedef Freeze::Map< ::Ice::Double, ::Astro::agileEvt, DBAgileEvtKeyCodec, DBAgileEvtValueCodec, Freeze::IceEncodingCompare > DBAgileEvt;
 
-class AgileLogMapKeyCodec
+class DBAgileEvtStructKeyCodec
 {
 public:
 
-    static void write(const ::Astro::AgileLogKey&, Freeze::Key&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
-    static void read(::Astro::AgileLogKey&, const Freeze::Key&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
+    static void write(::Ice::Double, Freeze::Key&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
+    static void read(::Ice::Double&, const Freeze::Key&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
     static const std::string& typeId();
 };
 
-class AgileLogMapValueCodec
+class DBAgileEvtStructValueCodec
+{
+public:
+
+    static void write(const ::Astro::agileEvtValue&, Freeze::Value&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
+    static void read(::Astro::agileEvtValue&, const Freeze::Value&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
+    static const std::string& typeId();
+};
+
+typedef Freeze::Map< ::Ice::Double, ::Astro::agileEvtValue, DBAgileEvtStructKeyCodec, DBAgileEvtStructValueCodec, Freeze::IceEncodingCompare > DBAgileEvtStruct;
+
+class DBAgileLogKeyCodec
+{
+public:
+
+    static void write(const ::Astro::agileLogKey&, Freeze::Key&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
+    static void read(::Astro::agileLogKey&, const Freeze::Key&, const ::Ice::CommunicatorPtr&, const Ice::EncodingVersion&);
+    static const std::string& typeId();
+};
+
+class DBAgileLogValueCodec
 {
 public:
 
@@ -79,6 +100,6 @@ public:
     static const std::string& typeId();
 };
 
-typedef Freeze::Map< ::Astro::AgileLogKey, ::Astro::agileLog, AgileLogMapKeyCodec, AgileLogMapValueCodec, Freeze::IceEncodingCompare > AgileLogMap;
+typedef Freeze::Map< ::Astro::agileLogKey, ::Astro::agileLog, DBAgileLogKeyCodec, DBAgileLogValueCodec, Freeze::IceEncodingCompare > DBAgileLog;
 
 #endif

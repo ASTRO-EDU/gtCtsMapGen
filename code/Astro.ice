@@ -1,23 +1,36 @@
 module Astro
 {
 
-sequence<double> agileEvt;
+sequence<float> agileEvt;
 const int agileEvtSize = 6;
 
 sequence<double> agileLog;
 const int agileLogSize = 13;
 
-struct AgileEvtKey
+struct agileEvtValue
 {
-double time;
-double ra;
-double dec;
-double energy;
-double theta;
-double evstatus;
+float theta;
+float phi;
+float ra;
+float dec;
+int energy;
+float phearth;
+byte evstatus;
 };
 
-struct AgileLogKey
+sequence<agileEvtValue> agileEvtValueSeq;
+
+struct agileEvtKey
+{
+double time;
+float ra;
+float dec;
+float energy;
+float theta;
+float evstatus;
+};
+
+struct agileLogKey
 {
 double time;
 double livetime;
@@ -29,16 +42,40 @@ double phase;
 sequence<int> SimpleSeq;
 sequence<SimpleSeq> Matrix;
 
-sequence<double> Ra;
-sequence<double> Dec;
+sequence<float> Ra;
+sequence<float> Dec;
 
-sequence<AgileEvtKey> SeqEvtKey;
+sequence<agileEvtKey> SeqEvtKey;
 
-interface AstroInterface
+struct IntervalTime {
+double tstart;
+double tstop;
+};
+
+sequence<IntervalTime> Intervals;
+
+struct AGILECtsMapGenParams {
+double mdim; 
+double mres; 
+long mxdim; 
+double la; 
+double ba; 
+double emin; //ENERGY
+double emax; //ENERGY
+double fovradmin; //THETA
+double fovradmax; //THETA
+double albrad; 
+double lonpole; 
+int phasecode; //PHASE
+int filtercode; //EV_STATUS
+string projection;
+Intervals paramIntervals; //non ricordo se è case sensitive
+};
+
+interface AgileCtsMapGen
 {
 
-Matrix calculateMapKey(SeqEvtKey keys);
-Matrix calculateMapVector(Ra raVector, Dec decVector);
+Matrix calculateMapKey(AGILECtsMapGenParams param);
 void shutdown();
 
 };

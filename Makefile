@@ -24,8 +24,8 @@ SHELL = /bin/sh
 SYSTEM= $(shell gcc -dumpmachine)
 #ice, ctarta, mpi, cfitsio, mysql
 LINKERENV= cfitsio, ice
-EXE_NAME = server
-LIB_NAME = server
+EXE_NAME = client
+LIB_NAME = client
 VER_FILE_NAME = version.h
 #the name of the directory where the conf file are copied (into $(datadir))
 CONF_DEST_DIR =

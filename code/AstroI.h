@@ -6,18 +6,17 @@
 namespace Astro
 {
 
-class AstroInterfaceI : virtual public AstroInterface
+class AgileCtsMapGenI : virtual public AgileCtsMapGen
 {
 public:
 
-    virtual ::Astro::Matrix calculateMapKey(const ::Astro::SeqEvtKey&,
+    virtual ::Astro::Matrix calculateMapKey(const ::Astro::AGILECtsMapGenParams&,
                                             const Ice::Current&);
 
-    virtual ::Astro::Matrix calculateMapVector(const ::Astro::Ra&,
-                                               const ::Astro::Dec&,
-                                               const Ice::Current&);
-
     virtual void shutdown(const Ice::Current&);
+
+private:
+    bool LogEvtString(AGILECtsMapGenParams params, vector<float> &ra, vector<float> &dec);
 };
 
 }

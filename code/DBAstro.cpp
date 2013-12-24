@@ -20,8 +20,9 @@
 
 
 // Freeze types in this file:
-// name="DBAstro", key="double", value="Astro::agileEvt"
-// name="AgileLogMap", key="Astro::agileLogKey", value="Astro::agileLog"
+// name="DBAgileEvt", key="double", value="Astro::agileEvt"
+// name="DBAgileEvtStruct", key="double", value="Astro::agileEvtValue"
+// name="DBAgileLog", key="Astro::agileLogKey", value="Astro::agileLog"
 
 #include <Ice/BasicStream.h>
 #include <IceUtil/StringUtil.h>
@@ -40,7 +41,7 @@
 #endif
 
 void
-DBAstroKeyCodec::write(::Ice::Double v, Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+DBAgileEvtKeyCodec::write(::Ice::Double v, Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
 {
     IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
     IceInternal::BasicStream stream(instance.get(), encoding, true);
@@ -49,7 +50,7 @@ DBAstroKeyCodec::write(::Ice::Double v, Freeze::Key& bytes, const ::Ice::Communi
 }
 
 void
-DBAstroKeyCodec::read(::Ice::Double& v, const Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+DBAgileEvtKeyCodec::read(::Ice::Double& v, const Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
 {
     IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
     IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
@@ -58,77 +59,17 @@ DBAstroKeyCodec::read(::Ice::Double& v, const Freeze::Key& bytes, const ::Ice::C
 
 namespace
 {
-    const ::std::string __DBAstroKeyCodec_typeId = "double";
+    const ::std::string __DBAgileEvtKeyCodec_typeId = "double";
 }
 
 const ::std::string&
-DBAstroKeyCodec::typeId()
+DBAgileEvtKeyCodec::typeId()
 {
-    return __DBAstroKeyCodec_typeId;
+    return __DBAgileEvtKeyCodec_typeId;
 }
 
 void
-DBAstroValueCodec::write(const ::Astro::agileEvt& v, Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
-{
-    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
-    IceInternal::BasicStream stream(instance.get(), encoding, true);
-    stream.startWriteEncaps();
-    stream.write(v);
-    stream.endWriteEncaps();
-    ::std::vector<Ice::Byte>(stream.b.begin(), stream.b.end()).swap(bytes);
-}
-
-void
-DBAstroValueCodec::read(::Astro::agileEvt& v, const Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
-{
-    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
-    IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
-    stream.startReadEncaps();
-    stream.read(v);
-    stream.endReadEncaps();
-}
-
-namespace
-{
-    const ::std::string __DBAstroValueCodec_typeId = "::Astro::agileEvt";
-}
-
-const ::std::string&
-DBAstroValueCodec::typeId()
-{
-    return __DBAstroValueCodec_typeId;
-}
-
-void
-AgileLogMapKeyCodec::write(const ::Astro::AgileLogKey& v, Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
-{
-    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
-    IceInternal::BasicStream stream(instance.get(), encoding, true);
-    stream.write(v);
-    ::std::vector<Ice::Byte>(stream.b.begin(), stream.b.end()).swap(bytes);
-}
-
-void
-AgileLogMapKeyCodec::read(::Astro::AgileLogKey& v, const Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
-{
-    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
-    IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
-    stream.read(v);
-}
-
-namespace
-{
-    const ::std::string __AgileLogMapKeyCodec_typeId = "::Astro::AgileLogKey";
-}
-
-const ::std::string&
-AgileLogMapKeyCodec::typeId()
-{
-    return __AgileLogMapKeyCodec_typeId;
-}
-
-void
-AgileLogMapValueCodec::write(const ::Astro::agileLog& v, Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+DBAgileEvtValueCodec::write(const ::Astro::agileEvt& v, Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
 {
     IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
     IceInternal::BasicStream stream(instance.get(), encoding, true);
@@ -139,7 +80,7 @@ AgileLogMapValueCodec::write(const ::Astro::agileLog& v, Freeze::Value& bytes, c
 }
 
 void
-AgileLogMapValueCodec::read(::Astro::agileLog& v, const Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+DBAgileEvtValueCodec::read(::Astro::agileEvt& v, const Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
 {
     IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
     IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
@@ -150,11 +91,131 @@ AgileLogMapValueCodec::read(::Astro::agileLog& v, const Freeze::Value& bytes, co
 
 namespace
 {
-    const ::std::string __AgileLogMapValueCodec_typeId = "::Astro::agileLog";
+    const ::std::string __DBAgileEvtValueCodec_typeId = "::Astro::agileEvt";
 }
 
 const ::std::string&
-AgileLogMapValueCodec::typeId()
+DBAgileEvtValueCodec::typeId()
 {
-    return __AgileLogMapValueCodec_typeId;
+    return __DBAgileEvtValueCodec_typeId;
+}
+
+void
+DBAgileEvtStructKeyCodec::write(::Ice::Double v, Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, true);
+    stream.write(v);
+    ::std::vector<Ice::Byte>(stream.b.begin(), stream.b.end()).swap(bytes);
+}
+
+void
+DBAgileEvtStructKeyCodec::read(::Ice::Double& v, const Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
+    stream.read(v);
+}
+
+namespace
+{
+    const ::std::string __DBAgileEvtStructKeyCodec_typeId = "double";
+}
+
+const ::std::string&
+DBAgileEvtStructKeyCodec::typeId()
+{
+    return __DBAgileEvtStructKeyCodec_typeId;
+}
+
+void
+DBAgileEvtStructValueCodec::write(const ::Astro::agileEvtValue& v, Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, true);
+    stream.startWriteEncaps();
+    stream.write(v);
+    stream.endWriteEncaps();
+    ::std::vector<Ice::Byte>(stream.b.begin(), stream.b.end()).swap(bytes);
+}
+
+void
+DBAgileEvtStructValueCodec::read(::Astro::agileEvtValue& v, const Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
+    stream.startReadEncaps();
+    stream.read(v);
+    stream.endReadEncaps();
+}
+
+namespace
+{
+    const ::std::string __DBAgileEvtStructValueCodec_typeId = "::Astro::agileEvtValue";
+}
+
+const ::std::string&
+DBAgileEvtStructValueCodec::typeId()
+{
+    return __DBAgileEvtStructValueCodec_typeId;
+}
+
+void
+DBAgileLogKeyCodec::write(const ::Astro::agileLogKey& v, Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, true);
+    stream.write(v);
+    ::std::vector<Ice::Byte>(stream.b.begin(), stream.b.end()).swap(bytes);
+}
+
+void
+DBAgileLogKeyCodec::read(::Astro::agileLogKey& v, const Freeze::Key& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
+    stream.read(v);
+}
+
+namespace
+{
+    const ::std::string __DBAgileLogKeyCodec_typeId = "::Astro::agileLogKey";
+}
+
+const ::std::string&
+DBAgileLogKeyCodec::typeId()
+{
+    return __DBAgileLogKeyCodec_typeId;
+}
+
+void
+DBAgileLogValueCodec::write(const ::Astro::agileLog& v, Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, true);
+    stream.startWriteEncaps();
+    stream.write(v);
+    stream.endWriteEncaps();
+    ::std::vector<Ice::Byte>(stream.b.begin(), stream.b.end()).swap(bytes);
+}
+
+void
+DBAgileLogValueCodec::read(::Astro::agileLog& v, const Freeze::Value& bytes, const ::Ice::CommunicatorPtr& communicator, const Ice::EncodingVersion& encoding)
+{
+    IceInternal::InstancePtr instance = IceInternal::getInstance(communicator);
+    IceInternal::BasicStream stream(instance.get(), encoding, &bytes[0], &bytes[0] + bytes.size());
+    stream.startReadEncaps();
+    stream.read(v);
+    stream.endReadEncaps();
+}
+
+namespace
+{
+    const ::std::string __DBAgileLogValueCodec_typeId = "::Astro::agileLog";
+}
+
+const ::std::string&
+DBAgileLogValueCodec::typeId()
+{
+    return __DBAgileLogValueCodec_typeId;
 }

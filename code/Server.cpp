@@ -31,7 +31,7 @@ int AstroServer::run(int argc, char*[]){
 	}
 
 	Ice::ObjectAdapterPtr adapter = communicator()->createObjectAdapter("Astro");
-	Astro::AstroInterfacePtr astro = new Astro::AstroInterfaceI;
+	Astro::AgileCtsMapGenPtr astro = new Astro::AgileCtsMapGenI;
 	adapter->add(astro, communicator()->stringToIdentity("astro"));
 	adapter->activate();
 	communicator()->waitForShutdown();

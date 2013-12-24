@@ -7,13 +7,16 @@
 
 #include <Ice/Ice.h>
 #include <Freeze/Freeze.h>
+
+#include "GenmapParams.h"
+
 #include "Astro.h"
 #include <DBAstro.h>
 
 using namespace std;
 using namespace Astro;
 
-#define SIMPLE_KEY
+//#define SIMPLE_KEY
 //#define COMPOSITE_KEY
 
 class AstroClient : public Ice::Application {
@@ -36,38 +39,43 @@ AstroClient::AstroClient() : Ice::Application(Ice::NoSignalHandling) {}
 
 int AstroClient::run(int argc, char* argv[]){
 
-	if (argc > 1 ) {
-		cerr << appName() << ": too many arguments" << endl;
-		return EXIT_FAILURE;
+//	if (argc > 1 ) {
+//		cerr << appName() << ": too many arguments" << endl;
+//		return EXIT_FAILURE;
+//	}
+
+	CtsGenParams params;
+	if (!params.Load(argc, argv)) {
+		return -1;
 	}
 
-	AstroInterfacePrx twoway = AstroInterfacePrx::checkedCast(communicator()->propertyToProxy("Astro.Proxy")->ice_twoway()->ice_timeout(-1)->ice_secure(false));
+	AgileCtsMapGenPrx twoway = AgileCtsMapGenPrx::checkedCast(communicator()->propertyToProxy("Astro.Proxy")->ice_twoway()->ice_timeout(-1)->ice_secure(false));
 
 	if (!twoway)
 	{
 		cerr << argv[0] << ": invalid proxy" << endl;
 		return EXIT_FAILURE;
 	}
-	AstroInterfacePrx oneway = twoway->ice_oneway();
-	AstroInterfacePrx batchOneway = twoway->ice_batchOneway();
-	AstroInterfacePrx datagram = twoway->ice_datagram();
-	AstroInterfacePrx batchDatagram = twoway->ice_batchDatagram();
+	AgileCtsMapGenPrx oneway = twoway->ice_oneway();
+	AgileCtsMapGenPrx batchOneway = twoway->ice_batchOneway();
+	AgileCtsMapGenPrx datagram = twoway->ice_datagram();
+	AgileCtsMapGenPrx batchDatagram = twoway->ice_batchDatagram();
 
-	Ice::InitializationData initData;
-	initData.properties = Ice::createProperties();
-	initData.properties->load("config");
-
-	// Initialize the Communicator.
-	Ice::CommunicatorPtr communicator = Ice::initialize(initData);
-
-	// Create a Freeze database connection.
-	Freeze::ConnectionPtr connection = Freeze::createConnection(communicator, "db");
-
-
-	//The map
-	DBAstro DBEvt(connection,"AgileEvtMap");
-	//The iterator
-	DBAstro::iterator it;
+//	Ice::InitializationData initData;
+//	initData.properties = Ice::createProperties();
+//	initData.properties->load("config");
+//
+//	// Initialize the Communicator.
+//	Ice::CommunicatorPtr communicator = Ice::initialize(initData);
+//
+//	// Create a Freeze database connection.
+//	Freeze::ConnectionPtr connection = Freeze::createConnection(communicator, "db");
+//
+//
+//	//The map
+//	DBAstro DBEvt(connection,"AgileEvtMap");
+//	//The iterator
+//	DBAstro::iterator it;
 
 #ifdef SIMPLE_KEY
 	//The evt vector
@@ -109,6 +117,9 @@ int AstroClient::run(int argc, char* argv[]){
 			cin >> c;
 			if(c == 't')
 			{
+
+				Astro::Matrix retv = twoway->calculateMapKey(params);
+
 #ifdef SIMPLE_KEY
 				Astro::Matrix retv = twoway->calculateMapVector(ra, dec);
 #endif
@@ -126,11 +137,11 @@ int AstroClient::run(int argc, char* argv[]){
 			}
 			else if(c == 'o')
 			{
-				oneway->calculateMapVector(ra, dec);
+				oneway->calculateMapKey(params);
 			}
 			else if(c == 'O')
 			{
-				batchOneway->calculateMapVector(ra, dec);
+				batchOneway->calculateMapKey(params);
 			}
 			else if(c == 'd')
 			{
@@ -140,7 +151,7 @@ int AstroClient::run(int argc, char* argv[]){
 				}
 				else
 				{
-					datagram->calculateMapVector(ra, dec);
+					datagram->calculateMapKey(params);
 				}
 			}
 			else if(c == 'D')
@@ -151,7 +162,7 @@ int AstroClient::run(int argc, char* argv[]){
 				}
 				else
 				{
-					batchDatagram->calculateMapVector(ra, dec);
+					batchDatagram->calculateMapKey(params);
 				}
 			}
 			else if(c == 'f')
