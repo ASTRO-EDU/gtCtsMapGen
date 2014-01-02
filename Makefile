@@ -16,16 +16,17 @@
 #		* uninstall: add or remove the files and directories that should be uninstalled
 #############################################################################
 
-PROJECT= <project_name>
+PROJECT= gtCtsMapGenIce
 SHELL = /bin/sh
 
 ####### 1) Project names and system
 
 SYSTEM= $(shell gcc -dumpmachine)
 #ice, ctarta, mpi, cfitsio, mysql
-LINKERENV= cfitsio, ice
-EXE_NAME = client
-LIB_NAME = client
+LINKERENV= cfitsio, pil, agile, ice
+EXE_NAME1 = gtCtsMapGenIceServer
+EXE_NAME2 = gtCtsMapGenIceClient
+LIB_NAME = 
 VER_FILE_NAME = version.h
 #the name of the directory where the conf file are copied (into $(datadir))
 CONF_DEST_DIR =
@@ -72,7 +73,14 @@ endif
 
 #Set INCPATH to add the inclusion paths
 INCPATH = -I $(INCLUDE_DIR) 
-LIBS = -lstdc++
+LIBS = -lstdc++ 
+#Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
+CFLAGS   = -g
+#Insert the implicit parameter to the compiler:
+ALL_CFLAGS = -m64 -fexceptions -Wall $(CFLAGS) $(INCPATH)
+#Use CPPFLAGS for the preprocessor
+CPPFLAGS =
+
 ifneq (, $(findstring ice, $(LINKERENV)))
         INCPATH += -I$(ICEDIR)/include
 endif
@@ -84,17 +92,29 @@ ifneq (, $(findstring ctarta, $(LINKERENV)))
         INCPATH += -I$(CTARTA)/include
 	LIBS += -L$(CTARTA)/lib -lpacket -lRTAtelem
 endif
-ifneq (, $(findstring mysql, $(LINKERENV)))
-        INCPATH += -I~/local/include
-	LIBS += -L~/local/lib -lmysqlcppconn
+ifneq (, $(findstring root, $(LINKERENV)))
+        ROOTCFLAGS   := $(shell root-config --cflags)
+	ROOTLIBS     := $(shell root-config --libs)
+	ROOTGLIBS    := $(shell root-config --glibs)
+	ROOTCONF=-O -pipe -Wall -W -fPIC -D_REENTRANT
+	INCPATH += -I$(ROOTSYS)/include/root
+	LIBS += $(ROOTGLIBS) -lMinuit
+	ALL_CFLAGS += $(ROOTCONF)
 endif
-#Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
-CFLAGS   = -g 
-#Insert the implicit parameter to the compiler:
-ALL_CFLAGS = -m64 -fexceptions -Wall $(CFLAGS) $(INCPATH)
-#Use CPPFLAGS for the preprocessor
-CPPFLAGS = 
-#Set LIBS for addition library
+ifneq (, $(findstring pil, $(LINKERENV)))
+        INCPATH += -I$(AGILE)/include
+	LIBS += -L$(AGILE)/lib -lagilepil
+endif
+ifneq (, $(findstring wcs, $(LINKERENV)))
+        INCPATH += -I$(AGILE)/include
+	LIBS += -L$(AGILE)/lib -lagilewcs 
+endif
+ifneq (, $(findstring agile, $(LINKERENV)))
+    	INCPATH += -I$(AGILE)/include
+	LIBS += -L$(AGILE)/lib -lagilesci -lgtcommon
+endif 
+
+#Set addition parameters that depends by operating system
 
 ifneq (, $(findstring linux, $(SYSTEM)))
  	#Do linux things
@@ -115,6 +135,8 @@ ifneq (, $(findstring apple, $(SYSTEM)))
                 LIBS += -lZerocIce -lZerocIceUtil -lFreeze
         endif
 endif 
+
+
 LINK     = $CC
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
@@ -187,7 +209,8 @@ lib: staticlib
 	
 exe: makeobjdir $(OBJECTS)
 		test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
-		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
+		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME1) $(OBJECTS_DIR)/*Astro*.o $(OBJECTS_DIR)/Server.o $(LIBS)
+		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME2) $(OBJECTS_DIR)/*Astro*.o $(OBJECTS_DIR)/Client.o $(LIBS)
 	
 staticlib: makelibdir makeobjdir $(OBJECTS)	
 		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	
@@ -218,7 +241,8 @@ clean:
 	$(DEL_FILE) *~ core *.core
 	$(DEL_FILE) $(LIB_DESTDIR)/*.a
 	$(DEL_FILE) $(LIB_DESTDIR)/*.so*
-	$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME)	
+	$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME1)	
+	$(DEL_FILE) $(EXE_DESTDIR)/$(EXE_NAME2)	
 	$(DEL_FILE) version
 	$(DEL_FILE) prefix
 	$(DEL_FILE) $(PROJECT).dvi
