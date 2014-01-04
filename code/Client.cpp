@@ -8,9 +8,9 @@
 #include <Ice/Ice.h>
 #include <Freeze/Freeze.h>
 
-#include "GenmapParams.h"
+#include <GenmapParams.h>
 
-#include "Astro.h"
+#include <Astro.h>
 #include <DBAstro.h>
 
 using namespace std;
@@ -49,6 +49,32 @@ int AstroClient::run(int argc, char* argv[]){
 		return -1;
 	}
 
+	Astro::AGILECtsMapGenParams myParams;
+	myParams.albrad = params.albrad;
+	myParams.ba = params.ba;
+	myParams.emax = params.emax;
+	myParams.emin = params.emin;
+	myParams.filtercode = params.filtercode;
+	myParams.fovradmax = params.fovradmax;
+	myParams.fovradmin = params.fovradmin;
+	myParams.la = params.la;
+	myParams.lonpole = params.lonpole;
+	myParams.mdim = params.mdim;
+	myParams.mres = params.mres;
+	myParams.mxdim = params.mxdim;
+	myParams.phasecode = params.phasecode;
+	for (int i = 0;  i < params.intervals.Count(); ++ i) {
+		Astro::IntervalTime intvt;
+		intvt.tstart = params.intervals[i].Start();
+		intvt.tstop = params.intervals[i].Stop();
+		myParams.paramIntervals.push_back(intvt);
+	}
+	if (params.projection == ARC) {
+		myParams.projection == "ARC";
+	} else if (params.projection == AIT) {
+		myParams.projection = "AIT";
+	}
+
 	AgileCtsMapGenPrx twoway = AgileCtsMapGenPrx::checkedCast(communicator()->propertyToProxy("Astro.Proxy")->ice_twoway()->ice_timeout(-1)->ice_secure(false));
 
 	if (!twoway)
@@ -77,32 +103,32 @@ int AstroClient::run(int argc, char* argv[]){
 //	//The iterator
 //	DBAstro::iterator it;
 
-#ifdef SIMPLE_KEY
-	//The evt vector
-	Astro::agileEvt agileEvt;
-
-//	vector<double> ra, dec;
-	Astro::Ra ra;
-	Astro::Dec dec;
-
-	for(it=DBEvt.begin(); it != DBEvt.end(); ++it){
-		agileEvt = it->second;
-		ra.push_back(agileEvt[6]);
-		dec.push_back(agileEvt[5]);
-	}
-#endif
-
-#ifdef COMPOSITE_KEY
-
-	Astro::SeqEvtKey evtKeys;
-	Astro::AgileEvtKey key;
-
-	for(it=DBEvt.begin(); it != DBEvt.end(); ++it){
-		key = it->first;
-		evtKeys.push_back(key);
-	}
-
-#endif
+//#ifdef SIMPLE_KEY
+//	//The evt vector
+//	Astro::agileEvt agileEvt;
+//
+////	vector<double> ra, dec;
+//	Astro::Ra ra;
+//	Astro::Dec dec;
+//
+//	for(it=DBEvt.begin(); it != DBEvt.end(); ++it){
+//		agileEvt = it->second;
+//		ra.push_back(agileEvt[6]);
+//		dec.push_back(agileEvt[5]);
+//	}
+//#endif
+//
+//#ifdef COMPOSITE_KEY
+//
+//	Astro::SeqEvtKey evtKeys;
+//	Astro::AgileEvtKey key;
+//
+//	for(it=DBEvt.begin(); it != DBEvt.end(); ++it){
+//		key = it->first;
+//		evtKeys.push_back(key);
+//	}
+//
+//#endif
 
 	menu();
 
@@ -118,17 +144,18 @@ int AstroClient::run(int argc, char* argv[]){
 			if(c == 't')
 			{
 
-				Astro::Matrix retv = twoway->calculateMapKey(params);
+				Astro::Matrix retv = twoway->calculateMapKey(myParams);
 
-#ifdef SIMPLE_KEY
-				Astro::Matrix retv = twoway->calculateMapVector(ra, dec);
-#endif
-
-#ifdef COMPOSITE_KEY
-				Astro::Matrix retv = twoway->calculateMapKey(evtKeys);
-#endif
+//#ifdef SIMPLE_KEY
+//				Astro::Matrix retv = twoway->calculateMapVector(ra, dec);
+//#endif
+//
+//#ifdef COMPOSITE_KEY
+//				Astro::Matrix retv = twoway->calculateMapKey(evtKeys);
+//#endif
 
 				cout << "Received back the matrix" << endl;
+
 				//Demo::FloatSeq retv = twoway->update(1, 2.0, "ciao", v);
 //				cout << "Received back the vector [ ";
 //				for(unsigned int i=0; i<retv.size(); i++)
@@ -137,11 +164,11 @@ int AstroClient::run(int argc, char* argv[]){
 			}
 			else if(c == 'o')
 			{
-				oneway->calculateMapKey(params);
+				oneway->calculateMapKey(myParams);
 			}
 			else if(c == 'O')
 			{
-				batchOneway->calculateMapKey(params);
+				batchOneway->calculateMapKey(myParams);
 			}
 			else if(c == 'd')
 			{
@@ -151,7 +178,7 @@ int AstroClient::run(int argc, char* argv[]){
 				}
 				else
 				{
-					datagram->calculateMapKey(params);
+					datagram->calculateMapKey(myParams);
 				}
 			}
 			else if(c == 'D')
@@ -162,7 +189,7 @@ int AstroClient::run(int argc, char* argv[]){
 				}
 				else
 				{
-					batchDatagram->calculateMapKey(params);
+					batchDatagram->calculateMapKey(myParams);
 				}
 			}
 			else if(c == 'f')

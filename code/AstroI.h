@@ -15,8 +15,8 @@ public:
 
     virtual void shutdown(const Ice::Current&);
 
-private:
-    bool LogEvtString(AGILECtsMapGenParams params, vector<float> &ra, vector<float> &dec);
+//private:
+//    bool LogEvtString(AGILECtsMapGenParams params, std::vector<float>& ra, std::vector<float>& dec);
 };
 
 }
