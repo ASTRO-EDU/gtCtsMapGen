@@ -81,12 +81,12 @@ ALL_CFLAGS = -m64 -fexceptions -Wall $(CFLAGS) $(INCPATH)
 #Use CPPFLAGS for the preprocessor
 CPPFLAGS =
 
+ifneq (, $(findstring agile, $(LINKERENV)))
+        INCPATH += -I$(AGILE)/include
+        LIBS += -L$(AGILE)/lib -lagilesci -lgtcommon
+endif
 ifneq (, $(findstring ice, $(LINKERENV)))
         INCPATH += -I$(ICEDIR)/include
-endif
-ifneq (, $(findstring cfitsio, $(LINKERENV)))
-        INCPATH += -I$(CFITSIO)/include
-	LIBS += -L$(CFITSIO)/lib -lcfitsio
 endif
 ifneq (, $(findstring ctarta, $(LINKERENV)))
         INCPATH += -I$(CTARTA)/include
@@ -109,10 +109,10 @@ ifneq (, $(findstring wcs, $(LINKERENV)))
         INCPATH += -I$(AGILE)/include
 	LIBS += -L$(AGILE)/lib -lagilewcs 
 endif
-ifneq (, $(findstring agile, $(LINKERENV)))
-    	INCPATH += -I$(AGILE)/include
-	LIBS += -L$(AGILE)/lib -lagilesci -lgtcommon
-endif 
+ifneq (, $(findstring cfitsio, $(LINKERENV)))
+        INCPATH += -I$(CFITSIO)/include
+        LIBS += -L$(CFITSIO)/lib -lcfitsio
+endif
 
 #Set addition parameters that depends by operating system
 
