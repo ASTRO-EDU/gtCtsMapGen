@@ -4,6 +4,17 @@
 #include <iostream>
 #include <vector>
 
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+
+#include <iomanip>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include <cstring>
 
 #include <GenmapParams.h>
@@ -45,9 +56,10 @@ bool LogEvtString(AGILECtsMapGenParams params, vector<float>& ra, vector<float>&
 	#ifdef SIMPLE_KEY
 		//The evt vector
 		Astro::agileEvt agileEvt;
-
+		cout << "start query " << endl;
 		for(it=DBEvt.begin(); it != DBEvt.end(); ++it){
 			double time = it->first;
+			cout << setprecision(15) << time << " " << params.emin << " " << params.emax << " " << params.fovradmax << endl;
 			if (params.paramIntervals.size() == 1) {
 				if (time >= params.paramIntervals[0].tstart && time <= params.paramIntervals[0].tstop) {
 					agileEvt = it->second;
@@ -187,7 +199,7 @@ Astro::AgileCtsMapGenI::calculateMapKey(const ::Astro::AGILECtsMapGenParams& par
 
 	nrows = raVector.size();
 
-	cout << nrows << endl;
+	cout << "nrows: " << nrows << endl;
 	//double ra, dec;
 //	switch (param.projection) {
 //	case "ARC":
