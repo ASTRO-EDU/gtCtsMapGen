@@ -39,19 +39,19 @@ bool LogEvtString(AGILECtsMapGenParams params, vector<float>& ra, vector<float>&
         return false;
 
     Ice::InitializationData initData;
-		initData.properties = Ice::createProperties();
-		initData.properties->load("config");
+	initData.properties = Ice::createProperties();
+	initData.properties->load("config");
 
-		// Initialize the Communicator.
-		Ice::CommunicatorPtr communicator = Ice::initialize(initData);
+	// Initialize the Communicator.
+	Ice::CommunicatorPtr communicator = Ice::initialize(initData);
 
-		// Create a Freeze database connection.
-		Freeze::ConnectionPtr connection = Freeze::createConnection(communicator, "db");
+	// Create a Freeze database connection.
+	Freeze::ConnectionPtr connection = Freeze::createConnection(communicator, "dbagilesimple");
 
-		//The map
-		DBAgileEvt DBEvt(connection,"AgileEvtMap");
-		//The iterator
-		DBAgileEvt::iterator it;
+	//The map
+	DBAgileEvt DBEvt(connection,"DBAgileEvt");
+	//The iterator
+	DBAgileEvt::iterator it;
 
 	#ifdef SIMPLE_KEY
 		//The evt vector
@@ -59,10 +59,11 @@ bool LogEvtString(AGILECtsMapGenParams params, vector<float>& ra, vector<float>&
 		cout << "start query " << endl;
 		for(it=DBEvt.begin(); it != DBEvt.end(); ++it){
 			double time = it->first;
-			cout << setprecision(15) << time << " " << params.emin << " " << params.emax << " " << params.fovradmax << endl;
+			cout << setprecision(15) << time << " " << params.emin << " " << params.emax << " " << params.fovradmin << " " << params.fovradmax << " " << params.albrad <<   " " << params.phasecode << " " << params.filtercode << endl;
 			if (params.paramIntervals.size() == 1) {
 				if (time >= params.paramIntervals[0].tstart && time <= params.paramIntervals[0].tstop) {
 					agileEvt = it->second;
+					cout << "DB: " << agileEvt[4] << " " << agileEvt[3] << " " << agileEvt[2] << " " << agileEvt[1] << " " << agileEvt[0] << " " << endl;
 					if ((agileEvt[4] >= params.emin && agileEvt[4] <= params.emax) &&
 							(agileEvt[3] > params.albrad) &&
 							(agileEvt[2] < params.fovradmax && agileEvt[2] >= params.fovradmin) &&
@@ -72,6 +73,7 @@ bool LogEvtString(AGILECtsMapGenParams params, vector<float>& ra, vector<float>&
 						//Condizioni soddisfatte
 						ra.push_back(agileEvt[6]);
 						dec.push_back(agileEvt[5]);
+						cout << "******************************************************" << endl;
 
 					}
 				}
@@ -111,13 +113,13 @@ bool LogEvtString(AGILECtsMapGenParams params, vector<float>& ra, vector<float>&
 		for(it=DBEvt.begin(); it != DBEvt.end(); ++it){
 			key = it->first;
 			if (params.paramIntervals.size() == 1) {
-				if (key.time >= params->paramIntervals[0].tstart && key.time <= params->paramIntervals[0].tstop) {
+				if (key.time >= params->paramIntervals[0].tstart && key.time <= params.paramIntervals[0].tstop) {
 					evt = it->second;
-					if ((key.energy >= params->emin && key.energy <= params->emax) &&
-							(evt[3] > params->albrad) &&
-							(key.theta < params->fovradmax && agileEvt[2] >= key.theta->fovradmin) &&
-							(evt[1] == params->phasecode) &&
-							(evt[0] == params->filtercode)) {
+					if ((key.energy >= params.emin && key.energy <= params.emax) &&
+							(evt[3] > params.albrad) &&
+							(key.theta < params.fovradmax && agileEvt[2] >= params.fovradmin) &&
+							(evt[1] == params.phasecode) &&
+							(evt[0] == params.filtercode)) {
 
 						//Condizioni soddisfatte
 						ra.push_back(key.ra);
@@ -127,19 +129,19 @@ bool LogEvtString(AGILECtsMapGenParams params, vector<float>& ra, vector<float>&
 				}
 			} else {
 				bool inTime = false;
-				for (int i=0; i<params->paramIntervals.size(); ++i) {
-					if (key.time >= params->paramIntervals[i].tstart && key.time <= params->paramIntervals[i].tstop) {
+				for (int i=0; i<params.paramIntervals.size(); ++i) {
+					if (key.time >= params.paramIntervals[i].tstart && key.time <= params.paramIntervals[i].tstop) {
 						inTime = true;
 						break;
 					}
 				}
 				if (inTime) {
 					evt = it->second;
-					if ((key.energy >= params->emin && key.energy <= params->emax) &&
-							(evt[3] > params->albrad) &&
-							(key.theta < params->fovradmax && agileEvt[2] >= key.theta->fovradmin) &&
-							(evt[1] == params->phasecode) &&
-							(evt[0] == params->filtercode)) {
+					if ((key.energy >= params.emin && key.energy <= params.emax) &&
+							(evt[3] > params.albrad) &&
+							(key.theta < params.fovradmax && agileEvt[2] >= params.fovradmin) &&
+							(evt[1] == params.phasecode) &&
+							(evt[0] == params.filtercode)) {
 
 						//Condizioni soddisfatte
 						ra.push_back(key.ra);
@@ -200,6 +202,7 @@ Astro::AgileCtsMapGenI::calculateMapKey(const ::Astro::AGILECtsMapGenParams& par
 	nrows = raVector.size();
 
 	cout << "nrows: " << nrows << endl;
+	cout << param.projection << endl;
 	//double ra, dec;
 //	switch (param.projection) {
 //	case "ARC":
@@ -232,6 +235,7 @@ Astro::AgileCtsMapGenI::calculateMapKey(const ::Astro::AGILECtsMapGenParams& par
 			if ((i < param.mxdim) && (i >= 0) && (ii < param.mxdim) && (ii >= 0)) {
 				A[ii][i]+=1;
 				++selectedEvents;
+				cout << "A[" << ii << "][" << i << "] = " << A[ii][i] << endl;
 			}
 
 //			if (param.inmap(i,ii)) {

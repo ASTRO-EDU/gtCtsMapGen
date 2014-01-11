@@ -70,7 +70,7 @@ int AstroClient::run(int argc, char* argv[]){
 		myParams.paramIntervals.push_back(intvt);
 	}
 	if (params.projection == ARC) {
-		myParams.projection == "ARC";
+		myParams.projection = "ARC";
 	} else if (params.projection == AIT) {
 		myParams.projection = "AIT";
 	}
@@ -145,6 +145,43 @@ int AstroClient::run(int argc, char* argv[]){
 			{
 
 				Astro::Matrix retv = twoway->calculateMapKey(myParams);
+
+				unsigned short A[params.mxdim][params.mxdim]; //counts map
+				 for (int i = 0; i < params.mxdim; i++)
+				{   for (int ii = 0; ii < params.mxdim; ii++)
+					{
+						A[ii][i] = retv[ii][i];
+					}
+				}
+
+				fitsfile * mapFits;
+				int status = 0;
+				const double obtlimit = 104407200.;
+				    if (params.tmin<obtlimit)
+				        status = 1005;
+//				    else
+//				        status = addfile(evtFits, params);
+
+				if ( fits_create_file(&mapFits, params.outfile, &status) != 0 ) {
+					printf("Errore in apertura file '%s'\n",params.outfile);
+					return status;
+				}
+
+				int bitpix   =  USHORT_IMG; /* 16-bit unsigned short pixel values       */
+				long naxis    =   2;  /* 2-dimensional image                            */
+				long naxes[2] = { params.mxdim, params.mxdim };   /* image is 300 pixels wide by 200 rows */
+				long nelement =  naxes[0] * naxes[1];
+				std::cout<< "creating Counts Map...................................." << std::endl;
+				fits_create_img(mapFits, bitpix, naxis, naxes, &status);
+//				std::cout<< "writinig Counts Map with " << selectedEvents << " events" << std::endl;
+				fits_write_img(mapFits, bitpix, 1, nelement, A, &status);
+				std::cout<< "writing header........................................" << std::endl<< std::endl;
+
+				params.write_fits_header(mapFits, params.projection, status);
+
+				//fits_delete_file(evtFits, &status);
+				fits_close_file(mapFits, &status);
+
 
 //#ifdef SIMPLE_KEY
 //				Astro::Matrix retv = twoway->calculateMapVector(ra, dec);
